@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizando Sistema...</title>
+    <style>
+        body {
+            background: #020617;
+            color: #00f3ff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #333;
+            border-top-color: #00f3ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader"></div>
+    <h2>Actualizando Biblioteca...</h2>
+    <p>Eliminando archivos antiguos del dispositivo.</p>
+    <p id="status">Iniciando limpieza...</p>
+
+    <script>
+        async function clearAndReload() {
+            const status = document.getElementById('status');
+
+            // 1. Unregister all Service Workers
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                        console.log('SW Unregistered:', registration);
+                    }
+                    status.innerText = "Service Workers eliminados.";
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            // 2. Clear Caches
+            if ('caches' in window) {
+                try {
+                    const keys = await caches.keys();
+                    for (let key of keys) {
+                        await caches.delete(key);
+                        console.log('Cache deleted:', key);
+                    }
+                    status.innerText = "Imágenes y datos antiguos borrados.";
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            // 3. Force Reload to Index
+            status.innerText = "¡Listo! Redirigiendo...";
+            setTimeout(() => {
+                window.location.replace('index.html?v=' + Date.now());
+            }, 1000);
+        }
+
+        window.onload = clearAndReload;
+    </script>
+</body>
+
+</html>

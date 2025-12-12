@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto App Biblioteca</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        .page {
+            page-break-after: always;
+            min-height: 90vh;
+            position: relative;
+        }
+
+        /* COVER PAGE */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 90vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 2rem;
+        }
+
+        .cover h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f3ff;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .cover h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 2rem;
+        }
+
+        .cover .author {
+            margin-top: auto;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 2rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .mockup {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 4px solid #0f172a;
+        }
+
+        .text-content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .text-content li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .text-content li::before {
+            content: "•";
+            color: #00f3ff;
+            /* Doesn't show well on white paper, using dark blue */
+            color: #0f172a;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .footer-legal {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 3rem;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PORTADA -->
+    <div class="page cover">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📱</div>
+        <h1>PROYECTO APP BIBLIOTECA</h1>
+        <p style="font-size: 1.5rem;">CENTRO EDUCATIVO DR. RENÉ FAVALORO</p>
+
+        <h2>DERECHOS DE AUTOR:<br>PROFESOR CRISTIAN MANUEL ESCUDERO<br>DNI 26.858.047</h2>
+
+        <div class="author">
+            Presentación Técnica V13.0<br>
+            2025
+        </div>
+    </div>
+
+    <!-- SECCION 1: INGRESO -->
+    <div class="page section">
+        <div class="section-header">
+            <h3>1. Acceso y Bienvenida</h3>
+        </div>
+        <div class="content-grid">
+            <img src="app_welcome_screen_1765435517742.png" class="mockup" alt="Pantalla de Bienvenida">
+            <div class="text-content">
+                <p>El primer punto de contacto con la aplicación ofrece un diseño moderno y minimalista, optimizado para
+                    dispositivos móviles. Sus características principales incluyen:</p>
+                <ul>
+                    <li>**Acceso Universal:** Botones claros para Docentes, Alumnos y Administradores.</li>
+                    <li>**Inicio de Sesión con Google:** Integración directa para un acceso rápido y seguro sin recordar
+                        contraseñas complejas.</li>
+                    <li>**Asistente IA para Invitados:** Un acceso directo a la Inteligencia Artificial permite a
+                        usuarios no registrados hacer consultas básicas sobre el funcionamiento de la biblioteca.</li>
+                    <li>**Identidad Visual:** Logo institucional y paleta de colores "Neon Blue" que moderniza la imagen
+                        de la biblioteca.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 2: INICIO -->
+    <div class="page section">
+        <div class="section-header">
+            <h3>2. Panel Principal (Dashboard)</h3>
+        </div>
+        <div class="content-grid">
+            <div class="text-content">
+                <p>El centro de comando de la aplicación. Desde aquí, el usuario tiene acceso a todas las
+                    funcionalidades vitales del sistema:</p>
+                <ul>
+                    <li>**Personalización:** Saludo personalizado al usuario y visualización de su rol actual.</li>
+                    <li>**Notificaciones Importantes:** Un panel superior muestra avisos urgentes enviados por la
+                        dirección o administración (ej. "Biblioteca cerrada por desinfección").</li>
+                    <li>**Botones de Acción Rápida:** Acceso inmediato al Catálogo, Chat con Bibliotecaria, y
+                        Actividades.</li>
+                    <li>**Acceso Condicional:** Si el usuario es Administrador, aparece automáticamente el botón de
+                        "Panel Admin".</li>
+                </ul>
+            </div>
+            <img src="app_home_dashboard_1765435533199.png" class="mockup" alt="Pantalla de Inicio">
+        </div>
+    </div>
+
+    <!-- SECCION 3: CATÁLOGO -->
+    <div class="page section">
+        <div class="section-header">
+            <h3>3. Catálogo y Búsqueda</h3>
+        </div>
+        <div class="content-grid">
+            <img src="app_catalog_view_1765435551029.png" class="mockup" alt="Catálogo">
+            <div class="text-content">
+                <p>El corazón de la biblioteca digital. Permite a alumnos y docentes explorar el acervo bibliográfico en
+                    tiempo real:</p>
+                <ul>
+                    <li>**Búsqueda Instantánea:** Barra de búsqueda que filtra resultados por Título o Autor mientras se
+                        escribe.</li>
+                    <li>**Estado en Tiempo Real:** Indicadores visuales claros (Badges) que muestran si un libro está
+                        "Disponible" o "Prestado".</li>
+                    <li>**Ficha de Detalle:** Al tocar un libro, se despliega su sinopsis completa y la opción de
+                        solicitarlo (si está disponible).</li>
+                    <li>**Gestión de Inventario:** Los administradores de biblioteca pueden actualizar este listado
+                        directamente desde su panel.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 4: ADMINISTRACIÓN -->
+    <div class="page section">
+        <div class="section-header">
+            <h3>4. Panel de Administración</h3>
+        </div>
+        <div class="content-grid">
+            <div class="text-content">
+                <p>El área de gestión exclusiva para el personal autorizado (Encargados, Directivos, Bibliotecarios):
+                </p>
+                <ul>
+                    <li>**Gestión de Usuarios:** Capacidad para crear nuevos administradores y asignarles roles
+                        específicos (Docente, Biblioteca, Super Admin).</li>
+                    <li>**Seguridad Avanzada:** El sistema de "Doble Verificación" obliga a los nuevos administradores a
+                        cambiar su contraseña temporal ("Admin123") en el primer ingreso.</li>
+                    <li>**Difusión Masiva:** Herramienta para enviar notificaciones push a todos los usuarios de la
+                        aplicación.</li>
+                    <li>**Gestión de Archivos:** Control total sobre las actividades y materiales subidos por los
+                        docentes.</li>
+                </ul>
+            </div>
+            <img src="app_admin_panel_1765435568380.png" class="mockup" alt="Admin Panel">
+        </div>
+
+        <div class="footer-legal">
+            <p>PROYECTO DE SOFTWARE REGISTRADO</p>
+            <p>DISEÑO Y DESARROLLO: CRISTIAN MANUEL ESCUDERO - DNI 26.858.047</p>
+            <p>© 2025 - TODOS LOS DERECHOS RESERVADOS</p>
+        </div>
+    </div>
+</body>
+
+</html>
