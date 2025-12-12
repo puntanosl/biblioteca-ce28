@@ -1,4 +1,5 @@
 // js/app.js
+import './firebase.js'; // ✅ IMPORT SOLO PARA EJECUTAR Y CREAR window.auth / window.db
 import { State } from './state.js';
 import { router } from './router.js';
 
@@ -8,89 +9,76 @@ window.State = State;
 async function initApp() {
   console.log("Iniciando App Modular...");
 
-  // ✅ Tomar Firebase desde window (compat cargado en index.html)
-  const auth = window.auth;
-  const db = window.db;
-
-  if (!auth || !db) {
+  // ✅ Chequeo: Firebase debe estar listo
+  if (!window.auth || !window.db) {
     console.error("Firebase no está listo. Revisá que index.html cargue los SDK compat y que js/firebase.js setee window.auth y window.db");
     return;
   }
 
+  const auth = window.auth;
+  const db = window.db;
+
   // 1. Service Worker para PWA
-  if ("serviceWorker" in navigator) {
+  if ('serviceWorker' in navigator) {
     try {
-      await navigator.serviceWorker.register("./service-worker.js");
-      console.log("SW registrado");
+      await navigator.serviceWorker.register('./service-worker.js');
+      console.log('SW registrado');
     } catch (e) {
-      console.error("SW fallo", e);
+      console.error('SW fallo', e);
     }
   }
 
   // 2. Auth Listener
   auth.onAuthStateChanged(async (user) => {
-    const loading = document.getElementById("loading-overlay");
+    const loading = document.getElementById('loading-overlay');
 
     if (user) {
-      // Usuario logueado
       console.log("Usuario autenticado:", user.email);
       State.currentUser = user;
 
       // Cargar Perfil de RTDB
-      const snap = await db.ref("users/" + user.uid).once("value");
+      const snap = await db.ref('users/' + user.uid).once('value');
       if (snap.exists()) {
         State.userProfile = snap.val();
 
         // Super Admin Force Role
-        if (
-          user.email === "cristianmescudero@sanluis.edu.ar" &&
-          State.userProfile.role !== "encargada"
-        ) {
-          State.userProfile.role = "encargada";
-          db.ref("users/" + user.uid).update({ role: "encargada" });
+        if (user.email === 'cristianmescudero@sanluis.edu.ar' && State.userProfile.role !== 'encargada') {
+          State.userProfile.role = 'encargada';
+          db.ref('users/' + user.uid).update({ role: 'encargada' });
         }
       } else {
         // Registro si no existe
         const profile = {
-          name: user.displayName || "Usuario",
+          name: user.displayName || 'Usuario',
           email: user.email,
-          role: "guest",
-          avatar: user.photoURL || "https://placehold.co/100/ccc/000?text=U",
+          role: 'guest',
+          avatar: user.photoURL || 'https://placehold.co/100/ccc/000?text=U'
         };
-        await db.ref("users/" + user.uid).set(profile);
+        await db.ref('users/' + user.uid).set(profile);
         State.userProfile = profile;
       }
 
-      // Iniciar Listeners de Datos en tiempo real
       State.initListeners();
-      // Fetch inicial de actividades (por defecto)
       State.fetchActivities();
 
-      // Check Force Reset
-      if (State.userProfile.forceReset) {
-        // TODO: Agregar vista force pass
-      }
-
-      router(); // Ir a home o donde determine el router
+      router();
     } else {
-      // No autenticado
       State.currentUser = null;
       State.userProfile = null;
-      router(); // Irá a login/welcome
+      router();
     }
 
-    // Ocultar Loading
-    if (loading) loading.classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
+    if (loading) loading.classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
   });
 
   // 3. Router Listener
-  window.addEventListener("hashchange", router);
+  window.addEventListener('hashchange', router);
 
-  // 4. Update Listeners (Custom Events desde State)
-  window.addEventListener("data-updated", (e) => {
-    console.log("Datos actualizados:", e.detail);
-    router(); // refrescar vista actual
+  // 4. Update Listeners
+  window.addEventListener('data-updated', (e) => {
+    console.log('Datos actualizados:', e.detail);
+    router();
   });
 }
 
