@@ -57,22 +57,29 @@
     </div>
 
     <!-- Main Logic -->
-    <script>
-        // CLEANUP: Force remove old Service Workers to fix cache issues
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function (registrations) {
-                for (let registration of registrations) {
-                    // Si el SW es el viejo 'sw.js', lo desregistramos
-                    if (registration.active && registration.active.scriptURL.includes('sw.js')) {
-                        console.log('Old SW found. Unregistering:', registration);
-                        registration.unregister();
-                        window.location.reload(); // Recargar para aplicar cambios
-                    }
-                }
-            });
-        }
-    </script>
+ <script>
+  (async () => {
+    if (!("serviceWorker" in navigator)) return;
+
+    // 1) Desregistrar TODOS los service workers
+    const regs = await navigator.serviceWorker.getRegistrations();
+    for (const reg of regs) {
+      await reg.unregister();
+      console.log("SW unregistered:", reg);
+    }
+
+    // 2) Borrar TODOS los caches
+    if (window.caches) {
+      const keys = await caches.keys();
+      for (const k of keys) {
+        await caches.delete(k);
+        console.log("Cache deleted:", k);
+      }
+    }
+  })();
+</script>
     <script type="module" src="js/app.js"></script>
 </body>
+
 
 </html>
