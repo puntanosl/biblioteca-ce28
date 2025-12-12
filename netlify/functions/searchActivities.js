@@ -1,17 +1,32 @@
-export default async (request) => {
-    const url = new URL(request.url);
-    const term = url.searchParams.get("term");
-    const subject = url.searchParams.get("subject");
-    const grade = url.searchParams.get("grade");
+export async function handler(event) {
+  const params = event.queryStringParameters || {};
 
-    return new Response(
-        JSON.stringify({
-            ok: true,
-            message: "Function activa",
-            term,
-            subject,
-            grade
-        }),
-        { headers: { "Content-Type": "application/json" } }
-    );
-};
+  const term = params.term || "suma";
+  const subject = params.subject || "matematica";
+  const grade = params.grade || "4";
+
+  const items = [
+    {
+      title: "Suma básica – fichas imprimibles",
+      url: "https://www.liveworksheets.com/",
+      source: "liveworksheets",
+      subject,
+      grade
+    },
+    {
+      title: "Ejercicios de suma para primaria",
+      url: "https://wordwall.net/",
+      source: "wordwall",
+      subject,
+      grade
+    }
+  ];
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      ok: true,
+      items
+    })
+  };
+}
